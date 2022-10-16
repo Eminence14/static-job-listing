@@ -1,4 +1,7 @@
 const container = document.querySelector('.container')
+const filterContainer = document.querySelector('.filter')
+const clearFilters = document.querySelector('.clear')
+
 
 const getData = async () => {
   const response = await fetch('data.json')
@@ -48,3 +51,43 @@ function showNew() {
 function showFeatured() {
   return `<span class="featured">Featured</span>`
 }
+
+async function filter() {
+  await getData()
+  const skills = document.querySelectorAll('.skills')
+  
+
+  skills.forEach(skill => {
+    skill.addEventListener('click', e => {
+      let token = true;
+      const targetText = e.target.textContent;
+      
+      const filterTexts = document.querySelectorAll('.search_title')
+      filterTexts.forEach(text => {
+        if (text.textContent.includes(e.target.textContent))
+        token = false;
+      })
+        
+        showFilter(token, targetText)
+    })
+  })
+}
+filter()
+
+function showFilter(token, targetText) {
+  if (token) {
+    filterContainer.insertAdjacentHTML("afterbegin", `
+      <div class="search">
+      <span class="search_title">${targetText}</span>
+      <span class="remove">&times;</span>
+      </div>`)
+  }
+}
+
+clearFilters.addEventListener('click', () => {
+  const searchParams = Array.from(filterContainer.children)
+  searchParams.forEach(param => {
+    if (param.tagName.toLowerCase() === 'div')
+      param.textContent = '';
+  })
+})
