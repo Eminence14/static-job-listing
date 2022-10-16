@@ -27,28 +27,6 @@ header {
 	background-color: var(--darkCyan);
     position: relative;
 }
-header input {
-    width: 90%;
-    border: none;
-    outline: none;
-    height: 25%;
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translate(-50%, 50%);
-    padding: .8em;
-    color: var(--darkCyan);
-    box-shadow: 1px 1px 5px rgba(0,0,0, .08),
-    -1px -1px 5px rgba(255, 255, 255, .1);
-    font-size: 1.1em;
-    font-weight: 600;
-}
-header input::placeholder{
-    color: var(--darkGrayCyan);
-    font-size: 1.1em;
-    letter-spacing: 1.7px;
-    font-weight: 100;
-}
 .container {
 	width: 100%;
 	max-width: 90%;

@@ -1,5 +1,4 @@
 const container = document.querySelector('.container')
-const filter = document.querySelector('#filter')
 
 const getData = async () => {
   const response = await fetch('data.json')
