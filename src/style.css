@@ -1,0 +1,165 @@
+:root {
+	--darkCyan: hsl(180, 29%, 50%);
+	--lightGrayCyanBg: hsl(180, 52%, 96%);
+	--lightGrayCyanFil: hsl(180, 31%, 95%);
+	--darkGrayCyan: hsl(180, 8%, 52%);
+	--veryDarkGrayCyan: hsl(180, 14%, 20%);
+}
+* {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	box-sizing: border-box;
+}
+@font-face {
+	font-family: Spartan;
+	src: url("../assets/League_Spartan/LeagueSpartan-Regular.ttf");
+}
+body {
+	font-size: 15px;
+	font-family: Spartan, sans-serif;
+	background-color: var(--lightGrayCyanBg);
+}
+header {
+	height: 150px;
+	width: 100%;
+	background-image: url("../images/bg-header-mobile.svg");
+	background-color: var(--darkCyan);
+    position: relative;
+}
+header input {
+    width: 90%;
+    border: none;
+    outline: none;
+    height: 25%;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 50%);
+    padding: .8em;
+    color: var(--darkCyan);
+    box-shadow: 1px 1px 5px rgba(0,0,0, .08),
+    -1px -1px 5px rgba(255, 255, 255, .1);
+    font-size: 1.1em;
+    font-weight: 600;
+}
+header input::placeholder{
+    color: var(--darkGrayCyan);
+    font-size: 1.1em;
+    letter-spacing: 1.7px;
+    font-weight: 100;
+}
+.container {
+	width: 100%;
+	max-width: 90%;
+	margin: 3.5em auto 2em;
+}
+.card {
+	background-color: white;
+	border-radius: 5px;
+	position: relative;
+	padding: 1.5em 1em;
+	box-shadow: 2px 2px 15px -5px var(--darkCyan);
+	margin-bottom: 3em;
+}
+.card:nth-child(1),
+.card:nth-child(2) {
+	border-left: 5px solid var(--darkCyan);
+}
+.card .card_image {
+	width: 100%;
+	height: 22.5px;
+	transform: translateY(-100%);
+}
+.card .card_image img {
+	transform: translateY(-50%);
+	width: 100%;
+	max-width: 45px;
+}
+.bott {
+	margin-bottom: 10px;
+}
+.card_description_top {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+h4.company_name {
+	color: var(--darkCyan);
+    margin-right: 2em;
+}
+.card_description_top span {
+	margin-left: 1em;
+	border-radius: 20px;
+	color: white;
+	font-weight: 700;
+	text-transform: uppercase;
+	font-size: 0.8em;
+	padding: 0.6em 0.6em 0.3em;
+	letter-spacing: 1.3px;
+}
+span.new {
+	background-color: var(--darkCyan);
+}
+span.featured {
+	background-color: var(--veryDarkGrayCyan);
+}
+h4.card_description_middle {
+	color: var(--veryDarkGrayCyan);
+}
+.card_description_bottom {
+	color: var(--darkGrayCyan);
+}
+hr {
+	opacity: 0.2;
+	margin: 1em 0;
+}
+.card_skills {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1em;
+}
+.card_skills .skills {
+	color: var(--darkCyan);
+	font-weight: 700;
+	background-color: var(--lightGrayCyanBg);
+	padding: 1em;
+	border-radius: 5px;
+	line-height: 0;
+}
+
+@media screen and (min-width: 838px) {
+    body {
+        font-size: 18px;
+    }
+    header {
+        background-image: url('../images/bg-header-desktop.svg');
+    }
+	.card {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+	}
+	.card .card_image {
+		height: 100%;
+        width: 130px;
+        transform: translateY(0);
+	}
+	.card .card_image img {
+        max-width: 100px;
+        transform: translateY(0);
+	}
+    h4.company_name {
+        margin-right: 1em;
+    }
+    .card_skills {
+        margin-left: auto;
+    }
+}
+
+
+@media screen and (min-width: 1024px) {
+    body {
+        font-size: 21px;
+    }
+}
