@@ -81,7 +81,6 @@ header .clear {
     color: var(--darkCyan);
     font-weight: 700;
     align-self: center;
-    /* display: inline-block; */
 }
 
 .container {

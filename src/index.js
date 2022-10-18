@@ -1,17 +1,19 @@
-const container = document.querySelector('.container')
-const filterContainer = document.querySelector('.filter')
-const clearFilters = document.querySelector('.clear')
+const container = document.querySelector(".container");
+const filterContainer = document.querySelector(".filter");
+const clearFilters = document.querySelector(".clear");
 
-
+// Fetch data from data.json
 const getData = async () => {
-  const response = await fetch('data.json')
-  const data = await response.json()
-  displayData(data)
-}
-getData()
+  const response = await fetch("data.json");
+  const data = await response.json();
+  displayData(data);
+  return data
+};
+getData();
 
+// display data to the page
 function displayData(data) {
-  container.innerHTML = `${data.map(dataTemp).join('')}`
+  container.innerHTML = `${data.map(dataTemp).join("")}`;
 }
 
 function dataTemp(datum) {
@@ -24,8 +26,8 @@ function dataTemp(datum) {
   <div class="card_description">
     <div class="card_description_top bott">
       <h4 class="company_name">${datum.company}</h4>
-      ${datum.new ? showNew() : ''}
-      ${datum.featured ? showFeatured() : ''}
+      ${datum.new ? `<span class='new'>New!</span>` : ""}
+      ${datum.featured ? `<span class="featured">Featured</span>` : ""}
     </div>
     <h4 class="card_description_middle bott">${datum.position}
     </h4>
@@ -37,57 +39,102 @@ function dataTemp(datum) {
   </div>
   <hr>
   <ul class="card_skills">
-${datum.languages.map(dat => `<li class="skills">${dat}</li>`).join('')}
-${datum.tools.map(dat => `<li class="skills">${dat}</li>`).join('')}
+${datum.languages.map(dat => `<li class="skills">${dat}</li>`).join("")}
+${datum.tools.map(dat => `<li class="skills">${dat}</li>`).join("")}
   </ul>
 </div>
 
-    `
-}
-
-function showNew() {
-  return `<span class="new">New!</span>`
-}
-function showFeatured() {
-  return `<span class="featured">Featured</span>`
+    `;
 }
 
 async function filter() {
-  await getData()
-  const skills = document.querySelectorAll('.skills')
-  
+  await getData();
+  const skills = document.querySelectorAll(".skills");
+  const allFilters = [];
 
   skills.forEach(skill => {
-    skill.addEventListener('click', e => {
+    skill.addEventListener("click", e => {
       let token = true;
       const targetText = e.target.textContent;
-      
-      const filterTexts = document.querySelectorAll('.search_title')
-      filterTexts.forEach(text => {
-        if (text.textContent.includes(e.target.textContent))
-        token = false;
-      })
-        
-        showFilter(token, targetText)
-    })
-  })
-}
-filter()
+      const skillSet = document.querySelectorAll(".card_skills");
+      const filterTexts = document.querySelectorAll(".search_title");
 
-function showFilter(token, targetText) {
-  if (token) {
-    filterContainer.insertAdjacentHTML("afterbegin", `
-      <div class="search">
-      <span class="search_title">${targetText}</span>
-      <span class="remove">&times;</span>
-      </div>`)
+      allFilters.push(targetText);
+
+      filterTexts.forEach(text => {
+        if (text.textContent.includes(e.target.textContent)) token = false;
+      });
+
+      filterCards(skillSet, allFilters);
+      showFilter(token, targetText);
+    });
+  });
+}
+filter();
+
+function filterCards(set, target) {
+  for (let key of target) {
+    set.forEach((subSet) => {
+      if (!subSet.textContent.includes(key))
+        container.removeChild(subSet.parentElement);
+    });
   }
 }
 
-clearFilters.addEventListener('click', () => {
-  const searchParams = Array.from(filterContainer.children)
+function showFilter(token, targetText) {
+  if (token) {
+    filterContainer.insertAdjacentHTML(
+      "afterbegin",
+      `
+      <div class="search">
+      <span class="search_title">${targetText}</span>
+      <span class="remove">&times;</span>
+      </div>`
+    );
+  }
+}
+
+clearFilters.addEventListener("click", () => {
+  const searchParams = Array.from(filterContainer.children);
   searchParams.forEach(param => {
-    if (param.tagName.toLowerCase() === 'div')
-      param.textContent = '';
+    if (param.tagName.toLowerCase() === "div")
+      filterContainer.removeChild(param)
+  });
+  clearFilter()
+  filter()
+});
+async function clearFilter() {
+  const pageData = await getData()
+  displayData(pageData)
+}
+
+filterContainer.addEventListener('click', e => {
+  if (!e.target.closest('span.remove')) return;
+  e.target.parentElement.remove()
+
+  const allFilters = []
+  const appliedFilters = Array.from(filterContainer.children);
+  appliedFilters.splice(appliedFilters.length - 1, 1)
+
+  // get index of the clicked filter
+  appliedFilters.forEach(filter => {
+    allFilters.push(Array.from(filter.children)[0].textContent)
   })
+
+  clearFilter()
+  pageAfterRemFilter(allFilters)
+  filter()
 })
+
+// async function pageAfterRemFilter(allFilters) {
+//   await clearFilter()
+//   const allSkills = document.querySelectorAll('.card_skills')
+
+//   for (let key of allFilters) {
+//     allSkills.forEach(skill => {
+//       if (!skill.textContent.includes(key)) {
+//       }
+//     })
+//   }
+
+// }
